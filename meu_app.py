@@ -34,7 +34,20 @@ Mid = dados['Num_Caracteres'].mean().astype(int)
 NumCaracteres = barra_lateral.slider('Número de caracteres',Start,End,Mid)
 
 container = st.container()
-container.columns(3)
+col1, col2, col3, col4, col5 = container.columns(5)
+
+cards = dados[(dados['ESTADO'] == estado) & (dados['Empresa'] == empresa)]
+
+with col1:
+        st.metric(label='Respondida', value=cards['STATUS'].value_counts()['Respondida'])
+with col2:       
+        st.metric(label='Resolvido',value=cards['STATUS'].value_counts()['Resolvido'])
+with col3:       
+        st.metric(label='Não respondida',value=cards['STATUS'].value_counts()['Não respondida'])
+with col4:       
+        st.metric(label='Em réplica',value=cards['STATUS'].value_counts()['Em réplica'])
+with col5:       
+        st.metric(label='Não resolvido',value=cards['STATUS'].value_counts()['Não resolvido'])
 
 df_filtrado = dados[(dados['ESTADO'] == estado) & (dados['Empresa'] == empresa) & (dados['STATUS'].isin(status))]
 media_contagem = df_filtrado.groupby(['TEMPO'])['ID'].nunique().mean()
